@@ -28,8 +28,7 @@ rend.scene.append( face )
 
 radio = 10
 isRunning = True
-rend.camPosition.x = 1
-rend.camPosition.y = 2
+face.position.z -= 5
 rend.camPosition.z = 2
 radio = max(face.position)
 
@@ -45,7 +44,7 @@ def radians(angle):
 radio = 5
 
 rend.camPosition.x = 0
-rend.camPosition.y = 0
+rend.camPosition.y = 2
 rend.camPosition.z = radio
 
 while isRunning:
@@ -64,17 +63,15 @@ while isRunning:
     
     if keys[K_LEFT]:
     
-        rend.camPosition.x = radio*math.cos(radians(prueba))
-        rend.camPosition.z = radio*math.sin(radians(prueba))
-        rend.camRotation.y += 50*deltaTime
-        prueba -= 50*deltaTime
-
+        rend.camPosition.x -= 2*deltaTime
         
 
 
         
 
     elif keys[K_RIGHT]:
+        if rend.camPosition.y != 0:
+            rend.camPosition.y = 0
         rend.camPosition.x = radio*math.cos(radians(prueba))
         rend.camPosition.z = radio*math.sin(radians(prueba))
         rend.camRotation.y -= 50*deltaTime
@@ -82,13 +79,9 @@ while isRunning:
 
 
     elif keys[K_UP]:
-        rend.camPosition.y += 5*deltaTime
-        alpha = math.atan(rend.camPosition.y/radio)
-        rend.camRotation.x -= alpha
+        rend.camPosition.y += 10 * deltaTime
     elif keys[K_DOWN]:
-        rend.camPosition.y -= 5*deltaTime
-        alpha = math.atan(rend.camPosition.y/radio)
-        rend.camRotation.x += alpha
+        rend.camPosition.y -= 10 * deltaTime
 
     deltaTime = clock.tick(60) / 1000
     #print(deltaTime)

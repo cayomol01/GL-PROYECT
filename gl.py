@@ -8,9 +8,11 @@ from OpenGL.GL.shaders import compileProgram, compileShader
 
 from obj import Obj
 
+from pygame import image
+
 
 class Model(object):
-    def __init__(self, objName):
+    def __init__(self, objName, textureName):
         self.model = Obj(objName)
 
         self.createVertexBuffer()
@@ -18,6 +20,10 @@ class Model(object):
         self.position = glm.vec3(0,0,0)
         self.rotation = glm.vec3(0,0,0)
         self.scale = glm.vec3(1,1,1)
+        
+        self.textureSurface = image.load(textureName)
+        self.textureData = image.tostring(self.textureSurface, "RGB", True)
+        self.texture = glGenTextures(1)
 
 
     def createVertexBuffer(self):
@@ -133,6 +139,20 @@ class Model(object):
                               ctypes.c_void_p(4*5))# Offset
 
         glEnableVertexAttribArray(2)
+        
+        glActiveTexture(GL_TEXTURE0)
+        glBindTexture(GL_TEXTURE_2D, self.texture)
+        glTexImage2D(GL_TEXTURE_2D,
+                     0,
+                     GL_RGB,
+                     self.textureSurface.get_width(),
+                     self.textureSurface.get_height(),
+                     0,
+                     GL_RGB,
+                     GL_UNSIGNED_BYTE,
+                     self.textureData)
+        glGenerateMipmap(GL_TEXTURE_2D)
+        
 
         glDrawArrays(GL_TRIANGLES, 0, self.polycount * 3 )
 
@@ -151,6 +171,7 @@ class Renderer(object):
         # ViewMatrix
         self.camPosition = glm.vec3(0,0,0)
         self.camRotation = glm.vec3(0,0,0)
+        self.target = glm.vec3(0,0,0)
         self.viewMatrix = self.getViewMatrix()
 
         # Projection Matrix
@@ -199,6 +220,7 @@ class Renderer(object):
             glUniformMatrix4fv( glGetUniformLocation(self.active_shader, "projectionMatrix"),
                                 1, GL_FALSE, glm.value_ptr(self.projectionMatrix))
 
+            glUniform1i(glGetUniformLocation(self.active_shader, "tex"), 0)
 
         for obj in self.scene:
             if self.active_shader is not None:
