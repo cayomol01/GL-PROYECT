@@ -24,6 +24,7 @@ class Model(object):
         self.textureSurface = image.load(textureName)
         self.textureData = image.tostring(self.textureSurface, "RGB", True)
         self.texture = glGenTextures(1)
+        
 
 
     def createVertexBuffer(self):
@@ -175,6 +176,7 @@ class Renderer(object):
         self.active_shader = None
 
         self.pointLight = glm.vec3(0,0,0)
+        self.camArr = glm.vec3(0,0,0)
         self.time = 0
         self.value = 0;
 
@@ -215,6 +217,9 @@ class Renderer(object):
 
         camMatrix = translateMat * rotationMat
 
+        self.camArr = glm.vec3(camMatrix[3][0], camMatrix[3][1], camMatrix[3][2])
+
+
         return glm.inverse(camMatrix)
 
 
@@ -244,12 +249,13 @@ class Renderer(object):
 
             glUniformMatrix4fv( glGetUniformLocation(self.active_shader, "projectionMatrix"),
                                 1, GL_FALSE, glm.value_ptr(self.projectionMatrix))
-
+            
             glUniform1i( glGetUniformLocation(self.active_shader, "tex"), 0)
 
             glUniform1f( glGetUniformLocation(self.active_shader, "time"), self.time)
 
             glUniform3fv( glGetUniformLocation(self.active_shader, "pointLight"), 1, glm.value_ptr(self.pointLight))
+            glUniform3fv( glGetUniformLocation(self.active_shader, "camArr"), 1, glm.value_ptr(self.camArr))
 
 
         for obj in self.scene:

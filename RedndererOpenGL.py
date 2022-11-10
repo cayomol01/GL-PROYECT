@@ -51,12 +51,24 @@ while isRunning:
 
             elif event.key == pygame.K_z:
                 rend.filledMode()
-                rend.setShaders(toon_vertex_shader, toon_fragment_shader)
+                rend.setShaders(vertex_shader, fragment_shader)
             elif event.key == pygame.K_x:
                 rend.wireframeMode()
             elif event.key == pygame.K_y:
                 rend.filledMode()
                 rend.setShaders(vertex_shader, fragment_shader)
+            elif event.key == pygame.K_c:
+                rend.filledMode()
+                rend.setShaders(glow_vertex_shader, glow_fragment_shader)
+            elif event.key == pygame.K_v:
+                rend.filledMode()
+                rend.setShaders(toon_r_glow_vertex_shader, toon_r_glow_fragment_shader)
+            elif event.key == pygame.K_b:
+                rend.filledMode()
+                rend.setShaders(toon_vertex_shader, toon_fragment_shader)
+
+
+
 
     if keys[K_q]:
         if rend.camDistance > 2:

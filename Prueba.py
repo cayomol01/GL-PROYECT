@@ -11,6 +11,7 @@ height = 540
 prueba = 90
 deltaTime = 0.0
 
+
 pygame.init()
 
 screen = pygame.display.set_mode((width, height), pygame.OPENGL | pygame.DOUBLEBUF)
@@ -76,7 +77,7 @@ while isRunning:
         rend.camPosition.z = radio*math.sin(radians(prueba))
         rend.camRotation.y -= 50*deltaTime
         prueba += 50*deltaTime
-
+ 
 
     elif keys[K_UP]:
         rend.camPosition.y += 10 * deltaTime
