@@ -20,7 +20,7 @@ clock = pygame.time.Clock()
 
 rend = Renderer(screen)
 
-rend.setShaders(vertex_shader, fragment_shader)
+rend.setShaders(negative_vertex_shader, negative_fragment_shader)
 
 rend.target.z = -5
 
