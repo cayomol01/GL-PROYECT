@@ -182,6 +182,7 @@ class Renderer(object):
 
         self.target = glm.vec3(0,0,0)
         self.angle = 0
+        self.rotationaxis = (0,1,0)
         self.camDistance = 5
 
         # ViewMatrix
@@ -190,7 +191,7 @@ class Renderer(object):
         self.viewMatrix = self.getViewMatrix()
 
         # Projection Matrix
-        self.projectionMatrix = glm.perspective(glm.radians(60),        # FOV
+        self.projectionMatrix = glm.perspective(glm.radians(90),        # FOV
                                                 self.width/self.height, # Aspect Ratio
                                                 0.1,                    # Near Plane
                                                 1000)                   # Far Plane
@@ -233,7 +234,7 @@ class Renderer(object):
     def update(self):
         #self.viewMatrix = self.getViewMatrix()
 
-        self.viewMatrix = self.getViewMatrix()
+        self.viewMatrix = glm.lookAt(self.camPosition, self.target, glm.vec3(0,1,0))
 
 
 
