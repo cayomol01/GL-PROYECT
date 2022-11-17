@@ -52,7 +52,7 @@ models = {"wolf": {"model": "models/Wolf.obj",
                   "scale":glm.vec3(0.3,0.3,0.3)
                   },
           "stone":{"model": "models/Stone.obj", 
-                  "texture": "models/Skull.jpg", 
+                  "texture": "models/diffuso.tif", 
                   "position":glm.vec3(0,-5,-10),
                   "scale":glm.vec3(1.5,1.5,1.5)
                   },
