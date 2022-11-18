@@ -12,6 +12,9 @@ from math import cos, sin, radians
 width = 960
 height = 540
 
+y_level = 180
+x_level = 180
+
 deltaTime = 0.0
 
 mixer.init()
@@ -73,11 +76,32 @@ rend.scene.append( Model(ch["model"], ch["texture"]) )
 rend.scene[0].position.z = ch["position"].z
 rend.scene[0].scale = ch["scale"]
 
+change = mixer.Sound("audio/Choose.mp3")
+wolf = mixer.Sound("audio/Wolf.mp3")
+hello = mixer.Sound("audio/Hello.mp3")
+bones = mixer.Sound("audio/Bones.mp3")
+wind = mixer.Sound("audio/windBlow.mp3")
+stone = mixer.Sound("audio/stone.mp3")
+
+
+change.set_volume(0.2)
+wolf.set_volume(0.2)
+hello.set_volume(0.2)
+bones.set_volume(0.2)
+wind.set_volume(0.2)
+stone.set_volume(0.2)
+
+
+
+
 mixer.music.load("audio/Wind.mp3")
-mixer.music.set_volume(0.1)
+mixer.music.set_volume(0.05)
 mixer.music.play()
 
 isRunning = True
+
+mixer.Sound.play(hello)
+previous_sound = hello
 
 
 def changeModel(choice):
@@ -102,37 +126,74 @@ while isRunning:
                 isRunning = False
 
             elif event.key == pygame.K_z:
+                pygame.mixer.Sound.play(change)
                 rend.filledMode()
                 rend.setShaders(vertex_shader, fragment_shader)
             elif event.key == pygame.K_x:
+                pygame.mixer.Sound.play(change)
                 rend.wireframeMode()
             elif event.key == pygame.K_y:
+                pygame.mixer.Sound.play(change)
                 rend.filledMode()
                 rend.setShaders(vertex_shader, fragment_shader)
             elif event.key == pygame.K_c:
+                pygame.mixer.Sound.play(change)
                 rend.filledMode()
                 rend.setShaders(glow_vertex_shader, glow_fragment_shader)
             elif event.key == pygame.K_v:
+                pygame.mixer.Sound.play(change)
                 rend.filledMode()
                 rend.setShaders(toon_r_glow_vertex_shader, toon_r_glow_fragment_shader)
             elif event.key == pygame.K_b:
+                pygame.mixer.Sound.play(change)
                 rend.filledMode()
                 rend.setShaders(toon_vertex_shader, toon_fragment_shader)
             elif event.key == pygame.K_n:
+                pygame.mixer.Sound.play(change)
                 rend.filledMode()
                 rend.setShaders(negative_vertex_shader, negative_fragment_shader)
+                
+            #Change models
+            #Face
             elif event.key == pygame.K_1:
+                pygame.mixer.Sound.stop(previous_sound)
+                
+                pygame.mixer.Sound.play(hello)
                 changeModel("face")
+                previous_sound = hello
+                
+            #Wolf
             elif event.key == pygame.K_2:
+                pygame.mixer.Sound.stop(previous_sound)
+                
+                pygame.mixer.Sound.play(wolf)
                 changeModel("wolf")
+                previous_sound = wolf
+                
+            #skull
             elif event.key == pygame.K_3:
+                pygame.mixer.Sound.stop(previous_sound)
+                
+                pygame.mixer.Sound.play(bones)
                 changeModel("skull")
                 rend.scene[0].rotation.x = -90
+                previous_sound = bones
+                
+            #Tree
             elif event.key == pygame.K_4:
+                pygame.mixer.Sound.stop(previous_sound)
+                
+                pygame.mixer.Sound.play(wind)
                 changeModel("tree")
                 rend.scene[0].rotation.y = -45
+                previous_sound = wind
+            #Tree
             elif event.key == pygame.K_5:
+                pygame.mixer.Sound.stop(previous_sound)
+                pygame.mixer.Sound.play(stone)
                 changeModel("stone")
+                previous_sound = stone
+                
 
 
 
